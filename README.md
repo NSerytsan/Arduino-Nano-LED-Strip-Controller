@@ -61,10 +61,11 @@ If colors look wrong (e.g. red shows as green), change the color order in `addLe
 
 - [x] Strip control with FastLED
 - [x] First four LEDs set to individual colors (red, yellow, amethyst, blue)
+- [x] Non-blocking animations with `millis()` (breathing, running light)
 
 ## Roadmap
 
-- [ ] Non-blocking animations with `millis()` (breathing, running light)
+
 - [ ] Mode switching with a state machine
 - [ ] Motion sensor (HC-SR501): light on when someone approaches
 - [ ] Touch button (TTP223): switch modes
