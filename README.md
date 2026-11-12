@@ -3,7 +3,7 @@
 Addressable RGB LED strip driven by an Arduino Nano using PlatformIO and FastLED.
 This is the first stage of a small embedded project: a motion- and touch-controlled night light.
 
-> **Status:** work in progress. Basic strip control works; animations and sensor input are planned.
+> **Status:** work in progress.
 
 ![WS2812B strip lit with four colors, controlled by Arduino Nano](docs/demo1.jpg)
 
@@ -57,16 +57,19 @@ Edit the constants at the top of `src/main.cpp`:
 
 If colors look wrong (e.g. red shows as green), change the color order in `addLeds` (`GRB`, `RGB`, `BRG`).
 
+## Demo
+
+[![Demo video](docs/demo2.jpg)](https://youtu.be/RCGIvZtT0HU)
+
 ## What works now
 
 - [x] Strip control with FastLED
 - [x] First four LEDs set to individual colors (red, yellow, amethyst, blue)
 - [x] Non-blocking animations with `millis()` (breathing, running light)
+- [x] Mode switching with a state machine
 
 ## Roadmap
 
-
-- [ ] Mode switching with a state machine
 - [ ] Motion sensor (HC-SR501): light on when someone approaches
 - [ ] Touch button (TTP223): switch modes
 - [ ] Phone control (Bluetooth or Wi-Fi): color and brightness
