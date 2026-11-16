@@ -8,6 +8,7 @@ constexpr uint8_t BRIGHTNESS = 50;
 constexpr uint8_t TAIL_FADE = 64;
 constexpr uint8_t BREATH_MIN = 5;
 constexpr uint8_t MODE_NUM = 3;
+constexpr uint8_t BUTTON_PIN = 2;
 
 CRGB leds[NUM_LEDS];
 
@@ -16,7 +17,7 @@ const unsigned long LOG_INTERVAL = 2000;
 const unsigned long BLINK_INTERVAL = 500;
 const unsigned long BREATH_INTERVAL = 20;
 const unsigned long RAINBOW_INTERVAL = 20;
-const unsigned long MODE_INTERVAL = 10000;
+//const unsigned long MODE_INTERVAL = 10000;
 
 
 uint8_t pos = 0;
@@ -24,13 +25,15 @@ bool led_state = false;
 uint8_t phase = 0;
 uint8_t hue = 0;
 uint8_t mode = 0;
+bool last_btn_state = LOW;
+bool state;
 
 IntervalTimer move_timer(MOVE_INTERVAL);
 IntervalTimer log_timer(LOG_INTERVAL);
 IntervalTimer blink_timer(BLINK_INTERVAL);
 IntervalTimer breath_timer(BREATH_INTERVAL);
 IntervalTimer rainbow_timer(RAINBOW_INTERVAL);
-IntervalTimer mode_timer(MODE_INTERVAL);
+//IntervalTimer mode_timer(MODE_INTERVAL);
 
 void blink()
 {
@@ -93,6 +96,7 @@ void prepare_mode(uint8_t m)
   
     case 1:
       pos = 0;
+      break;
   }
 
   FastLED.show();
@@ -103,6 +107,7 @@ void setup()
   FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
   FastLED.setBrightness(BRIGHTNESS);
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT);
   Serial.begin(9600);
 
   prepare_mode(mode);
@@ -111,13 +116,16 @@ void setup()
 
 void loop() 
 {
+  state = digitalRead(BUTTON_PIN);
   blink();
   log_uptime();
 
-  if(mode_timer.ready())
+  if(state && !last_btn_state)
   {
     mode = (mode + 1) % MODE_NUM;
     prepare_mode(mode);
+    Serial.print(F("Mode: ")); 
+    Serial.println(mode);
   }
 
   switch (mode)
@@ -135,4 +143,5 @@ void loop()
       break;
   }
   
+  last_btn_state = state;
 }
