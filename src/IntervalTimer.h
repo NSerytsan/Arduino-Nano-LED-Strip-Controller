@@ -11,5 +11,7 @@ public:
     bool ready();
     void setInterval(unsigned long interval);
     unsigned long get_last();
+    void reset();
+    bool expired();
 };
 

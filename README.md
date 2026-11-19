@@ -15,6 +15,7 @@ This is the first stage of a small embedded project: a motion- and touch-control
 | Addressable RGB LED strip | WS2812B, 60 LEDs, 5 V |
 | 5 V power supply | USB charger |
 | Touch button | TTP223B |
+| Sensor | HC-SR501 |
 
 ## Wiring
 
@@ -29,6 +30,12 @@ This is the first stage of a small embedded project: a motion- and touch-control
 | VCC | External 5 V supply (+) |
 | GND | Common GND |
 | SIG | Arduino pin D2 |
+
+| Sensor HC-SR501 | Connects to |
+|---|---|
+| VCC | External 5 V supply (+) |
+| GND | Common GND |
+| SIG | Arduino pin D3 |
 
 Notes:
 

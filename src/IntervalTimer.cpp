@@ -24,3 +24,13 @@ unsigned long IntervalTimer::get_last()
 {
     return last_;
 }
+
+void IntervalTimer::reset()
+{
+    last_ = millis();
+}
+
+bool IntervalTimer::expired()
+{
+    return millis() - last_ >= interval_;
+}
