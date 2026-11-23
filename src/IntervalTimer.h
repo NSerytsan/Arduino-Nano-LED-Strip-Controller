@@ -10,8 +10,8 @@ public:
     explicit IntervalTimer(unsigned long interval);
     bool ready();
     void setInterval(unsigned long interval);
-    unsigned long get_last();
+    unsigned long get_last() const;
     void reset();
-    bool expired();
+    bool expired() const;
 };
 

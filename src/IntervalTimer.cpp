@@ -20,7 +20,7 @@ void IntervalTimer::setInterval(unsigned long interval)
     interval_ = interval;
 }
 
-unsigned long IntervalTimer::get_last()
+unsigned long IntervalTimer::get_last() const
 {
     return last_;
 }
@@ -30,7 +30,7 @@ void IntervalTimer::reset()
     last_ = millis();
 }
 
-bool IntervalTimer::expired()
+bool IntervalTimer::expired() const
 {
     return millis() - last_ >= interval_;
 }

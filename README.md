@@ -3,7 +3,7 @@
 Addressable RGB LED strip driven by an Arduino Nano using PlatformIO and FastLED.
 This is the first stage of a small embedded project: a motion- and touch-controlled night light.
 
-> **Status:** work in progress. Touch-controlled LED modes work; motion sensor is next.
+> **Status:** work in progress. Motion- and touch-controlled night light works; phone control and battery power are next.
 
 ![WS2812B strip controlled by Arduino Nano](docs/demo1.jpg)
 
@@ -15,7 +15,7 @@ This is the first stage of a small embedded project: a motion- and touch-control
 | Addressable RGB LED strip | WS2812B, 60 LEDs, 5 V |
 | 5 V power supply | USB charger |
 | Touch button | TTP223B |
-| Sensor | HC-SR501 |
+| Sensor | HC-SR501 with jumper in retriggerable position |
 
 ## Wiring
 
@@ -41,8 +41,9 @@ Notes:
 
 - The strip must be powered from an external 5 V source, not from the Arduino 5V pin. One LED can draw up to ~60 mA at full white.
 - Brightness is capped in code because 60 LEDs at full white can exceed what a USB charger supplies.
-- GND of the Arduino, strip and button must be common.
+- GND of the Arduino, strip, button and sensor must be common.
 - Data flows in the direction of the arrows printed on the strip.
+- Sensor see activity in 3 meters.
 
 ## Software
 
@@ -65,13 +66,27 @@ On Linux you may need serial port permissions (e.g. add your user to the `uucp` 
 Edit the constants at the top of `src/main.cpp`:
 
 ```cpp
-constexpr uint8_t  LED_PIN     = 4;
-constexpr uint16_t NUM_LEDS    = 60;
-constexpr uint8_t  BRIGHTNESS  = 50;   // 0-255, keep low while testing
-constexpr uint8_t  BUTTON_PIN  = 2;
+constexpr uint8_t LED_PIN = 4;
+constexpr uint8_t BUTTON_PIN = 2;
+constexpr uint8_t SENSOR_PIN = 3;
+
+constexpr uint16_t NUM_LEDS = 60;
+constexpr uint8_t BRIGHTNESS = 50; // 0-255, keep low while testing
+constexpr uint8_t TAIL_FADE = 64;
+constexpr uint8_t BREATH_MIN = 5;
+constexpr uint8_t MODE_NUM = 3;
+
 ```
 
 If colors look wrong (e.g. red shows as green), change the color order in `addLeds` (`GRB`, `RGB`, `BRG`).
+
+## How it works
+
+| State | Behavior |
+|---|---|
+| OFF | Strip is dark; waiting for motion. |
+| ON | Strip shows the last used mode. Each motion event restarts a 10-minute timer. Touching the button switches the mode. |
+| FADING | After 10 minutes without motion, brightness fades to zero over 10 seconds. Motion during the fade switches the strip back on immediately. |
 
 ## Demo
 
@@ -82,12 +97,12 @@ If colors look wrong (e.g. red shows as green), change the color order in `addLe
 - [x] Strip control with FastLED
 - [x] Three animation modes: breathing, running light, rainbow
 - [x] Non-blocking animations with `millis()`
-- [x] Mode switching with a state machine
+- [x] Mode and state switching with a state machine
 - [x] Touch button (TTP223B): switch modes
+- [x] Motion sensor (HC-SR501): light on when someone approaches
 
 ## Roadmap
 
-- [ ] Motion sensor (HC-SR501): light on when someone approaches
 - [ ] Phone control (Bluetooth or Wi-Fi): color and brightness
 - [ ] Battery power (TP4056 + MT3608)
 
