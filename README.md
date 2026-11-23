@@ -97,7 +97,7 @@ If colors look wrong (e.g. red shows as green), change the color order in `addLe
 - [x] Strip control with FastLED
 - [x] Three animation modes: breathing, running light, rainbow
 - [x] Non-blocking animations with `millis()`
-- [x] Mode and state switching with a state machine
+- [x] Mode and stateswitching with a state machine
 - [x] Touch button (TTP223B): switch modes
 - [x] Motion sensor (HC-SR501): light on when someone approaches
 
